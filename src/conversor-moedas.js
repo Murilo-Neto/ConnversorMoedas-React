@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './conversor-moedas.css';
 import {Jumbotron, Button, Form, Col, Spinner, Alert, Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
+import ListarMoedas from './listar-moedas';
 
 function ConversorMoedas() {
+
+  const [valor, setValor] = useState('1');
+  const [moedaDe, setMoedaDe] = useState('BRL');
+  const [moedaPara, setMoedaPara] = useState('USD');
+  const [exibirSpiner, setExiirSpiner] = useState (false );
+
+  function handleValor (event){
+    setValor(event.target.value.replace(/\D/g,''));
+  }
+
+  function handleMoedaDe (event){
+    setMoedaDe(event.target.value);
+  }
+
+  function handleMoedaPara (event){
+    setMoedaPara(event.target.value);
+  }
+
   return (
     <div>
       <h1>Conversor de moedas</h1>
@@ -16,25 +35,36 @@ function ConversorMoedas() {
             <Form.Row>
               <Col sm="3">
                 <Form.Control
-                placeholde="0"
-                value={1}
+                placeholder="0"
+                value={valor}
+                onChange={handleValor}
                 required/>
               </Col>
               <Col sm="3">
-                <Form.Control as="select">
+                <Form.Control as="select"
+                  value={moedaDe}
+                  onChange={handleMoedaDe}>
+                  <ListarMoedas />
                 </Form.Control>
               </Col>
               <Col sm="1" className="text-center" style={{paddingTop:'5px'}}>
                 <FontAwesomeIcon icon={faAngleDoubleRight} />
               </Col>
               <Col sm="3">
-              <Form.Control as="select">
+              <Form.Control as="select"
+              value={moedaPara}
+              onChange={handleMoedaPara}>
+                <ListarMoedas />
               </Form.Control>
               </Col>
               <Col sm="2">
                 <Button variant="success" type="submit">
-                <Spinner animation="border" size="sm" />
+                <span className={exibirSpiner ? null : 'hidden'}>
+                  <Spinner animation="border" size="sm" />
+                </span>
+                <span className={exibirSpiner ? 'hidden' : null}>
                   Converter
+                </span>
                 </Button>
               </Col>
             </Form.Row>
@@ -54,7 +84,6 @@ function ConversorMoedas() {
           </Modal>
       </Jumbotron>
     </div>
-
   );
 }
 
