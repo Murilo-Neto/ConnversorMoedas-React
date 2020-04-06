@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ListarMoeads from './listar-moedas';
+import ListarMoedas from './listar-moedas';
 
-describe('teste do componente de listagem de moedas', () =>{
+describe('Teste do componente de listagem de moedas', () => {
 
-  it('Deve renderizar o componente sem erros', () => {
-    const div = document.creatElemennt('div');
-    ReactDOM.render(<ListarMoeads />, div);
+  it('deve renderizar o componente sem erros', () => {
+    const div = document.createElement('div');
+    ReactDOM.render(<ListarMoedas />, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
