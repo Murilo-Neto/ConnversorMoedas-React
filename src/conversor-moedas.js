@@ -10,7 +10,11 @@ function ConversorMoedas() {
   const [valor, setValor] = useState('1');
   const [moedaDe, setMoedaDe] = useState('BRL');
   const [moedaPara, setMoedaPara] = useState('USD');
-  const [exibirSpiner, setExiirSpiner] = useState (false );
+  const [exibirSpiner, setExiirSpiner] = useState (false);
+  const [validaForm, setValidaForm] = useState (false);
+  const [exibirModal, setExibirModal] = useState (false);
+  const [resultadoConversao, setResultadoconversao] = useState ('');
+
 
   function handleValor (event){
     setValor(event.target.value.replace(/\D/g,''));
@@ -24,6 +28,23 @@ function ConversorMoedas() {
     setMoedaPara(event.target.value);
   }
 
+  function handleFechaModal(event) {
+    setValor('1');
+    setMoedaDe('BRL');
+    setMoedaPara('USD');
+    setValidaForm(false);
+    setExibirModal(false);
+  }
+
+  function converter (event){
+    event.preventDefault();
+    setValidaForm(true);
+    if (event.currentTarget.checkValidity() === true) {
+      //TODO Implementar a Chamada ao Fixer.io
+      setExibirModal(true);
+    }
+  }
+
   return (
     <div>
       <h1>Conversor de moedas</h1>
@@ -31,7 +52,7 @@ function ConversorMoedas() {
         Erro ao obter dados de conversão, tente nnovamente.
       </Alert>
       <Jumbotron>
-          <Form>
+          <Form onSubmit={converter} noValidate validated={validaForm}>
             <Form.Row>
               <Col sm="3">
                 <Form.Control
@@ -69,15 +90,15 @@ function ConversorMoedas() {
               </Col>
             </Form.Row>
           </Form>
-          <Modal show={false}>
+          <Modal show={exibirModal} onHide={handleFechaModal}>
             <Modal.Header closeButton>
               <Modal.Title> Conversão</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              Resultado da Conversão aqui...
+              {resultadoConversao}
             </Modal.Body>
             <Modal.Footer>
-            <Button variant="success">
+            <Button variant="success" onClick={handleFechaModal}>
               Nova Conversão
             </Button>
             </Modal.Footer>
